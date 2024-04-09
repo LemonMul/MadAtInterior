@@ -11,7 +11,7 @@ export default function _layout() {
         tabBarStyle: {
             backgroundColor: Colors.bgColor,
             borderTopWidth: 0,
-            padding: 0
+            padding: 0,
         },
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors.black,
