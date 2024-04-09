@@ -6,4 +6,5 @@ export default {
     white: '#FFFFFF',
     gray: '#999',
     searchBar: '#D9D9D9',
+    shadowColor: '#333333',
 }

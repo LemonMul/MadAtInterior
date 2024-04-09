@@ -21,6 +21,7 @@ const Page = () => {
       ),
       headerRight: () => (
         <TouchableOpacity onPress={() => {}} style={{
+          elevation: 3, 
           marginRight: 20,
           backgroundColor: Colors.white,
           padding: 10,
