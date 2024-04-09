@@ -10,7 +10,11 @@ import Colors from "@/constants/Colors";
 import categories from "@/data/categories";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const CategoryButtons = () => {
+type Props = {
+  onCategoryChanged: (category: string) => void;
+};
+
+const CategoryButtons = ({ onCategoryChanged }: Props) => {
   const scrollRef = useRef<ScrollView>(null);
   const itemRef = useRef<TouchableOpacity[] | null[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,11 +29,12 @@ const CategoryButtons = () => {
         scrollRef.current?.scrollTo({ x: x, y: 0, animated: true });
       });
     });
+
+    onCategoryChanged(categories[index].title);
   };
 
   return (
     <View>
-      <Text style={styles.title}>Categories</Text>
       <ScrollView
         ref={scrollRef}
         horizontal
