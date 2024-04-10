@@ -1,7 +1,7 @@
 export interface ListingType {
   id: string;
   name: string;
-  Image: string;
+  image: string;
   description: string;
   rating: string;
   price: string;

@@ -11,9 +11,9 @@
   },
   {
     "id": "2",
-    "name": "붉은 벽돌 모양의 벽지 시공",
-    "image": "https://images.unsplash.com/photo-1495578942200-c5f5d2137def?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "description": "고전적인 붉은 벽돌이 프린팅된 벽지 시공",
+    "name": "녹색인듯 청색인듯 오묘한 색깔의 벽돌 벽지 시공",
+    "image": "https://images.unsplash.com/photo-1597437176788-c8fdb5bc1643?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "오묘한 색깔의 벽돌이 프린팅된 벽지 시공",
     "rating": "4.8",
     "price": "30",
     "compony": "다솜 인테리어",
@@ -21,12 +21,12 @@
   },
   {
     "id": "3",
-    "name": "붉은 벽돌 모양의 벽지 시공",
-    "image": "https://images.unsplash.com/photo-1495578942200-c5f5d2137def?q=80&w=2075&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "description": "고전적인 붉은 벽돌이 프린팅된 벽지 시공",
+    "name": "내추럴한 바닥재 시공",
+    "image": "https://plus.unsplash.com/premium_photo-1670914333285-3ee458dce314?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "초록 계열의 돌들이 박힌 타일 시공",
     "rating": "4.8",
     "price": "30",
     "compony": "다솜 인테리어",
-    "category": "벽지"
+    "category": "바닥"
   }
 ]
