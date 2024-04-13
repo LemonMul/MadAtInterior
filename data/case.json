@@ -31,5 +31,38 @@
     "location": "송파구",
     "company": "다솜 인테리어",
     "category": "바닥"
+  },
+  {
+    "id": "4",
+    "name": "기본 나무 바닥재 시공",
+    "image": "https://images.unsplash.com/photo-1573869908170-64b53a60d8da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "원목을 사용한 나무 바닥 시공",
+    "rating": "4.8",
+    "price": "30",
+    "location": "송파구",
+    "company": "가나 인테리어",
+    "category": "바닥"
+  },
+  {
+    "id": "5",
+    "name": "은회색 커튼 시공",
+    "image": "https://images.unsplash.com/photo-1617596225496-1d9da33a144b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "핀형 이중레일 커튼 시공",
+    "rating": "4.8",
+    "price": "30",
+    "location": "송파구",
+    "company": "가나 인테리어",
+    "category": "커튼"
+  },
+  {
+    "id": "6",
+    "name": "벽돌색 커튼 시공",
+    "image": "https://images.unsplash.com/photo-1614264986174-5b690cccd13e?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "description": "아일렛형 커튼 시공",
+    "rating": "4.8",
+    "price": "30",
+    "location": "종로구",
+    "company": "종로 인테리어",
+    "category": "커튼"
   }
 ]

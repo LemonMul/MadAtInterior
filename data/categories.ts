@@ -1,19 +1,19 @@
 const categories = [
   {
-    title: "All",
-    iconName: "home",
+    title: '전체',
+    iconName: 'home',
   },
   {
-    title: "벽지",
-    iconName: "wall",
+    title: '벽지',
+    iconName: 'wall',
   },
   {
-    title: "바닥",
-    iconName: "floor-plan",
+    title: '바닥',
+    iconName: 'floor-plan',
   },
   {
-    title: "커튼",
-    iconName: "curtains",
+    title: '커튼',
+    iconName: 'curtains',
   },
 ];
 

@@ -6,8 +6,9 @@ import {
   ListRenderItem,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListingType } from '@/types/listingType';
 import Colors from '@/constants/Colors';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
@@ -15,9 +16,26 @@ import { Link } from 'expo-router';
 
 type Props = {
   listings: any[];
+  category: string;
 };
 
-const Listings = ({ listings }: Props) => {
+const Listings = ({ listings, category }: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      if (category === '전체') {
+        setFilteredData(listings);
+      } else {
+        const filtered = listings.filter((item) => item.category === category);
+        setFilteredData(filtered);
+      }
+      setLoading(false);
+    }, 200);
+  }, [category, listings]);
+
   const renderItems: ListRenderItem<ListingType> = ({ item }) => {
     return (
       <Link href={`/listing/${item.id}`} asChild>
@@ -60,13 +78,25 @@ const Listings = ({ listings }: Props) => {
   };
 
   return (
-    <View>
-      <FlatList
-        data={listings}
-        renderItem={renderItems}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-      />
+    <View style={styles.loadingContainer}>
+      {loading ? (
+        <ActivityIndicator
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          size="large"
+          color={Colors.primaryColor}
+        />
+      ) : (
+        <FlatList
+          data={filteredData}
+          renderItem={renderItems}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 };
@@ -110,5 +140,10 @@ const styles = StyleSheet.create({
   itemCompanyTxt: {
     fontSize: 15,
     color: Colors.primaryColor,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

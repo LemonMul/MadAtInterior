@@ -76,7 +76,7 @@ const Page = () => {
         </View>
         <Text style={styles.headingText}>최근 인기 시공 사례</Text>
         <CategoryButtons onCategoryChanged={onCatChanged} />
-        <Listings listings={listingData} />
+        <Listings listings={listingData} category={category} />
       </View>
     </>
   );
