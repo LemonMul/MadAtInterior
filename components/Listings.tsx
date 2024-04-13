@@ -6,11 +6,11 @@ import {
   ListRenderItem,
   TouchableOpacity,
   Image,
-} from "react-native";
-import React from "react";
-import { ListingType } from "@/types/listingType";
-import Colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+} from 'react-native';
+import React from 'react';
+import { ListingType } from '@/types/listingType';
+import Colors from '@/constants/Colors';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 
 type Props = {
   listings: any[];
@@ -29,6 +29,24 @@ const Listings = ({ listings }: Props) => {
           <Text style={styles.itemTxt} numberOfLines={1} ellipsizeMode="tail">
             {item.name}
           </Text>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}
+            >
+              <FontAwesome5
+                name="map-marker-alt"
+                size={18}
+                color={Colors.primaryColor}
+              />
+              <Text style={styles.itemLocationTxt}>{item.location}</Text>
+            </View>
+            <Text style={styles.itemCompanyTxt}>{item.company}</Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -63,7 +81,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   bookmark: {
-    position: "absolute",
+    position: 'absolute',
     top: 185,
     right: 30,
     backgroundColor: Colors.primaryColor,
@@ -74,8 +92,16 @@ const styles = StyleSheet.create({
   },
   itemTxt: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: '600',
     color: Colors.black,
     marginBottom: 10,
+  },
+  itemLocationTxt: {
+    fontSize: 15,
+    marginLeft: 5,
+  },
+  itemCompanyTxt: {
+    fontSize: 15,
+    color: Colors.primaryColor,
   },
 });

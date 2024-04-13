@@ -6,7 +6,8 @@
     "description": "고전적인 붉은 벽돌이 프린팅된 벽지 시공",
     "rating": "4.8",
     "price": "30",
-    "compony": "다솜 인테리어",
+    "location": "서대문구",
+    "company": "다솜 인테리어",
     "category": "벽지"
   },
   {
@@ -16,7 +17,8 @@
     "description": "오묘한 색깔의 벽돌이 프린팅된 벽지 시공",
     "rating": "4.8",
     "price": "30",
-    "compony": "다솜 인테리어",
+    "location": "종로구",
+    "company": "다솜 인테리어",
     "category": "벽지"
   },
   {
@@ -26,7 +28,8 @@
     "description": "초록 계열의 돌들이 박힌 타일 시공",
     "rating": "4.8",
     "price": "30",
-    "compony": "다솜 인테리어",
+    "location": "송파구",
+    "company": "다솜 인테리어",
     "category": "바닥"
   }
 ]

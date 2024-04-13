@@ -5,19 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-} from "react-native";
-import React, { useState } from "react";
-import { Stack } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "@/constants/Colors";
-import { useHeaderHeight } from "@react-navigation/elements";
-import CategoryButtons from "@/components/CategoryButtons";
-import Listings from "@/components/Listings";
-import listingData from "@/data/case.json";
+} from 'react-native';
+import React, { useState } from 'react';
+import { Stack } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import Colors from '@/constants/Colors';
+import { useHeaderHeight } from '@react-navigation/elements';
+import CategoryButtons from '@/components/CategoryButtons';
+import Listings from '@/components/Listings';
+import listingData from '@/data/case.json';
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = useState('All');
 
   const onCatChanged = (category: string) => {
     setCategory(category);
@@ -28,12 +28,12 @@ const Page = () => {
       <Stack.Screen
         options={{
           headerTransparent: true,
-          headerTitle: "",
+          headerTitle: '',
           headerLeft: () => (
             <TouchableOpacity onPress={() => {}} style={{ marginLeft: 20 }}>
               <Image
                 source={{
-                  uri: "https://cdn.pixabay.com/photo/2017/07/18/23/40/group-2517459_1280.png",
+                  uri: 'https://cdn.pixabay.com/photo/2017/07/18/23/40/group-2517459_1280.png',
                 }}
                 style={{ width: 40, height: 40, borderRadius: 10 }}
               />
@@ -92,17 +92,17 @@ const styles = StyleSheet.create({
   },
   headingText: {
     fontSize: 28,
-    fontWeight: "500",
+    fontWeight: '500',
     color: Colors.black,
     marginTop: 10,
   },
   searchSectionWrapper: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: 20,
   },
   searchBar: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     backgroundColor: Colors.searchBar,
     padding: 16,
     borderRadius: 10,

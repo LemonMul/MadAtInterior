@@ -5,6 +5,7 @@ export interface ListingType {
   description: string;
   rating: string;
   price: string;
+  location: string;
   company: string;
   category: string;
 }
