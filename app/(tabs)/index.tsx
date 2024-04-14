@@ -1,12 +1,13 @@
 import {
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
@@ -14,10 +15,13 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import CategoryButtons from '@/components/CategoryButtons';
 import Listings from '@/components/Listings';
 import listingData from '@/data/case.json';
+import CompanyListings from '@/components/CompanyListings';
+import companyData from '@/data/company.json';
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
-  const [category, setCategory] = useState('All');
+  const [category, setCategory] = useState('전체');
+  const [loading, setLoading] = useState(false);
 
   const onCatChanged = (category: string) => {
     setCategory(category);
@@ -60,23 +64,26 @@ const Page = () => {
         }}
       />
       <View style={[styles.container, { paddingTop: headerHeight }]}>
-        <View style={styles.searchSectionWrapper}>
-          <View style={styles.searchBar}>
-            <Ionicons name="search" size={18} />
-            <TextInput placeholder="카테고리 검색" />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.searchSectionWrapper}>
+            <View style={styles.searchBar}>
+              <Ionicons name="search" size={18} />
+              <TextInput placeholder="카테고리 검색" />
+            </View>
+            <TouchableOpacity onPress={() => {}} style={styles.filterBtn}>
+              <Ionicons
+                name="options"
+                size={28}
+                style={{ marginRight: 5 }}
+                color={Colors.white}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => {}} style={styles.filterBtn}>
-            <Ionicons
-              name="options"
-              size={28}
-              style={{ marginRight: 5 }}
-              color={Colors.white}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.headingText}>최근 인기 시공 사례</Text>
-        <CategoryButtons onCategoryChanged={onCatChanged} />
-        <Listings listings={listingData} category={category} />
+          <Text style={styles.headingText}>최근 인기 시공 사례</Text>
+          <CategoryButtons onCategoryChanged={onCatChanged} />
+          <Listings listings={listingData} category={category} />
+          <CompanyListings listings={companyData} />
+        </ScrollView>
       </View>
     </>
   );
