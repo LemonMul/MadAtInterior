@@ -19,6 +19,9 @@ const moveToMuseum = () => {
   router.replace("maps/museum");
 };
 
+const moveToPlace = () => {
+  
+};
 const ParkScreen: React.FC = () => {
   const [parks, setParks] = useState([]);
   const [visibleParks, setVisibleParks] = useState([]);
@@ -111,9 +114,10 @@ const ParkScreen: React.FC = () => {
         </MapView>
       )}
       <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
-        <BasicButton style={{width: 110}} text="도서관" onPress={moveToLibrary}></BasicButton>
-        <BasicButton style={{width: 110}} text="공원" onPress={moveToPark}></BasicButton>
-        <BasicButton style={{width: 110}} text="박물관" onPress={moveToMuseum}></BasicButton>
+        <BasicButton style={{width: 90}} text="도서관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="공원" onPress={moveToPark}></BasicButton>
+        <BasicButton style={{width: 90}} text="박물관" onPress={moveToMuseum}></BasicButton>
+        <BasicButton style={{width: 90}} text="청년공간" onPress={moveToPlace}></BasicButton>
       </View>
       <FlatList
         data={visibleParks}

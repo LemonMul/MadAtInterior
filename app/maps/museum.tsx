@@ -6,6 +6,24 @@ import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
+import { router } from 'expo-router';
+import Colors from '@/constants/Colors';
+import BasicButton from '@/components/BasicButton';
+const moveToLibrary = () => {
+  router.replace("maps/library");
+}
+const moveToPark = () => {
+  router.replace("maps/park");
+}
+
+const moveToMuseum = () => {
+  router.replace("maps/museum");
+}
+
+const moveToPlace = () => {
+  
+};
+
 const MuseumScreen: React.FC = () => {
   const [museums, setMuseums] = useState([]);
   const [visibleMuseums, setVisibleMuseums] = useState([]);
@@ -99,6 +117,12 @@ const MuseumScreen: React.FC = () => {
           ))}
         </MapView>
       )}
+      <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
+        <BasicButton style={{width: 90}} text="도서관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="공원" onPress={moveToPark}></BasicButton>
+        <BasicButton style={{width: 90}} text="박물관" onPress={moveToMuseum}></BasicButton>
+        <BasicButton style={{width: 90}} text="청년공간" onPress={moveToPlace}></BasicButton>
+      </View>
       <FlatList
         data={visibleMuseums}
         keyExtractor={item => item.name}
@@ -135,6 +159,8 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 16
+  },buttonContainer: {
+    flexDirection: 'row'
   }
 });
 

@@ -18,6 +18,10 @@ const moveToMuseum = () => {
   router.replace("maps/museum");
 }
 
+const moveToPlace = () => {
+  
+}
+
 const Page: React.FC = () => {
   const [parks, setParks] = useState([]);
   const [libraries, setLibraries] = useState([]);
@@ -194,9 +198,10 @@ const Page: React.FC = () => {
       )}
     
       <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
-        <BasicButton style={{width: 110}} text="도서관" onPress={moveToLibrary}></BasicButton>
-        <BasicButton style={{width: 110}} text="공원" onPress={moveToLibrary}></BasicButton>
-        <BasicButton style={{width: 110}} text="박물관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="도서관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="공원" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="박물관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 90}} text="박물관" onPress={moveToPlace}></BasicButton>
       </View>
       {visiblePlaces.length > 0 ? (
         <FlatList
