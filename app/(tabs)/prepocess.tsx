@@ -1,29 +1,41 @@
-import React, { useEffect, useState } from 'react'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { StyleSheet, Text, View} from 'react-native';
+//1,2,3 통합본 : 내위치, 공원, 박물관, 도서관
+
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
-const Page : React.FC = () => {
+const Page: React.FC = () => {
   const [parks, setParks] = useState([]);
   const [libraries, setLibraries] = useState([]);
   const [museums, setMuseums] = useState([]);
-  const [userLocation, setUserLocation] = useState<any>(null); // 사용자 위치 정보를 저장
-  const [locationErrorMsg, setLocationErrorMsg] = useState<string | null>(null); // 위치 정보 가져오기 실패 시 오류 메시지 저장
+  const [visibleParks, setVisibleParks] = useState([]);
+  const [visibleLibraries, setVisibleLibraries] = useState([]);
+  const [visibleMuseums, setVisibleMuseums] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationErrorMsg, setLocationErrorMsg] = useState<string | null>(null);
+  const [initialRegion, setInitialRegion] = useState(null);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setLocationErrorMsg('Permission to access location was denied');
+        setLocationErrorMsg('위치 정보 접근 권한이 거부되었습니다');
         return;
       }
 
       try {
         const location = await Location.getCurrentPositionAsync({});
         setUserLocation(location.coords);
+        setInitialRegion({
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
+        });
       } catch (error) {
-        setLocationErrorMsg('Failed to get user location');
+        setLocationErrorMsg('사용자 위치를 가져오는 데 실패했습니다');
       }
     })();
     fetchParks();
@@ -34,18 +46,18 @@ const Page : React.FC = () => {
   const fetchParks = async () => {
     const seoul_key = '57524f76506d656e3732636a52457a';
     const url = `http://openAPI.seoul.go.kr:8088/${seoul_key}/json/SearchParkInfoService/1/1000/`;
-
     try {
       const response = await axios.get(url);
       const data = response.data.SearchParkInfoService.row;
       const cleanedData = data.map((park: any) => ({
-        ...park,
+        name: park.P_PARK,
         LATITUDE: parseFloat(park.LATITUDE),
         LONGITUDE: parseFloat(park.LONGITUDE),
+        color: 'green'
       })).filter((park: any) => park.LATITUDE && park.LONGITUDE);
       setParks(cleanedData);
     } catch (error) {
-      console.error('서울 공원 데이터를 가져오는데 실패했습니다', error);
+      console.error('서울 공원 데이터를 가져오는 데 실패했습니다', error);
     }
   };
 
@@ -55,123 +67,151 @@ const Page : React.FC = () => {
       `http://openAPI.seoul.go.kr:8088/${api_key}/json/SeoulLibraryTimeInfo/1/1000/`,
       `http://openAPI.seoul.go.kr:8088/${api_key}/json/SeoulLibraryTimeInfo/1001/2000/`
     ];
-
     try {
       const responses = await Promise.all(urls.map(url => axios.get(url)));
-      const allData = responses.map(response => response.data.SeoulLibraryTimeInfo.row);
-      const libraries = allData.flat().map((lib: any) => ({
-        ...lib,
+      const allData = responses.flatMap(response => response.data.SeoulLibraryTimeInfo.row);
+      const cleanedData = allData.map((lib: any) => ({
+        name: lib.LBRRY_NAME,
         LATITUDE: parseFloat(lib.XCNTS),
-        LONGITUDE: parseFloat(lib.YDNTS)
-      }));
-      setLibraries(libraries);
+        LONGITUDE: parseFloat(lib.YDNTS),
+        color: 'purple'
+      })).filter((library: any) => library.LATITUDE && library.LONGITUDE);
+      setLibraries(cleanedData);
     } catch (error) {
-      console.error('서울 도서관 데이터를 가져오는데 실패했습니다', error);
+      console.error('서울 도서관 데이터를 가져오는 데 실패했습니다', error);
     }
   };
 
   const fetchMuseums = async () => {
     const url = 'https://datasets-server.huggingface.co/rows?dataset=hscrown%2Fseoul_museums&config=default&split=train&offset=0&length=100';
-  
     try {
       const response = await axios.get(url);
       const data = response.data;
-      if (data && data.rows) { // "rows" 키에서 데이터를 확인
+      if (data && data.rows) {
         const cleanedData = data.rows.map((item: any) => ({
-          name: item.row['시설명'], // "시설명" 필드 사용
+          name: item.row['시설명'],
           LATITUDE: parseFloat(item.row['위도']),
           LONGITUDE: parseFloat(item.row['경도']),
+          color: 'orange'
         })).filter((museum: any) => museum.LATITUDE && museum.LONGITUDE);
         setMuseums(cleanedData);
       } else {
         console.error('예상한 데이터 구조와 다릅니다:', data);
       }
     } catch (error) {
-      console.error('서울 박물관 데이터를 가져오는데 실패했습니다', error);
+      console.error('서울 박물관 데이터를 가져오는 데 실패했습니다', error);
     }
   };
-  
-  
+
+  const onRegionChangeComplete = (region: Region) => {
+    setVisibleParks(parks.filter(park =>
+      park.LATITUDE >= region.latitude - region.latitudeDelta / 2 &&
+      park.LATITUDE <= region.latitude + region.latitudeDelta / 2 &&
+      park.LONGITUDE >= region.longitude - region.longitudeDelta / 2 &&
+      park.LONGITUDE <= region.longitude + region.longitudeDelta / 2
+    ));
+    setVisibleLibraries(libraries.filter(library =>
+      library.LATITUDE >= region.latitude - region.latitudeDelta / 2 &&
+      library.LATITUDE <= region.latitude + region.latitudeDelta / 2 &&
+      library.LONGITUDE >= region.longitude - region.longitudeDelta / 2 &&
+      library.LONGITUDE <= region.longitude + region.longitudeDelta / 2
+    ));
+    setVisibleMuseums(museums.filter(museum =>
+      museum.LATITUDE >= region.latitude - region.latitudeDelta / 2 &&
+      museum.LATITUDE <= region.latitude + region.latitudeDelta / 2 &&
+      museum.LONGITUDE >= region.longitude - region.longitudeDelta / 2 &&
+      museum.LONGITUDE <= region.longitude + region.longitudeDelta / 2
+    ));
+  };
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: userLocation ? userLocation.latitude : 37.5665,
-          longitude: userLocation ? userLocation.longitude : 126.978,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        {userLocation && (
-          <Marker
-            coordinate={{
-              latitude: userLocation.latitude,
-              longitude: userLocation.longitude,
-            }}
-            title="현재 사용자 위치"
-            pinColor="red" // 사용자 위치는 빨간색으로 표시
-          />
+      {initialRegion && (
+        <MapView
+          style={styles.map}
+          provider={PROVIDER_GOOGLE}
+          initialRegion={initialRegion}
+          onRegionChangeComplete={onRegionChangeComplete}
+        >
+          {userLocation && (
+            <Marker
+              coordinate={{
+                latitude: userLocation.latitude,
+                longitude: userLocation.longitude,
+              }}
+              title="현재 위치"
+              pinColor="red"
+            />
+          )}
+          {visibleParks.map((park, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: park.LATITUDE,
+                longitude: park.LONGITUDE
+              }}
+              title={park.name}
+              pinColor={park.color}
+            />
+          ))}
+          {visibleLibraries.map((library, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: library.LATITUDE,
+                longitude: library.LONGITUDE
+              }}
+              title={library.name}
+              pinColor={library.color}
+            />
+          ))}
+          {visibleMuseums.map((museum, index) => (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: museum.LATITUDE,
+                longitude: museum.LONGITUDE
+              }}
+              title={museum.name}
+              pinColor={museum.color}
+            />
+          ))}
+        </MapView>
+      )}
+      <FlatList
+        data={visibleParks.concat(visibleLibraries, visibleMuseums)}
+        keyExtractor={(item, index) => `place-${index}`}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={styles.listItem}>
+            <Text style={styles.listItemText}>{item.name}</Text>
+          </TouchableOpacity>
         )}
-        <Marker
-          coordinate={{ 
-            latitude: 37.5665, 
-            longitude: 126.978 
-          }}
-          title="서울시청역"
-          pinColor="blue" // 서울시청역은 파란색으로 표시
-        />
-        {parks.map((park, index) => (
-          <Marker
-            key={`park-${index}`}
-            coordinate={{
-              latitude: park.LATITUDE,
-              longitude: park.LONGITUDE
-            }}
-            title={park.P_PARK}
-            pinColor="blue" // 공원은 파란색으로 표시
-          />
-        ))}
-        {libraries.map((library, index) => (
-          <Marker
-            key={`library-${index}`}
-            coordinate={{
-              latitude: library.LATITUDE,
-              longitude: library.LONGITUDE
-            }}
-            title={library.LBRRY_NAME}
-            pinColor="purple" // 도서관은 보라색으로 표시
-          />
-        ))}
-        {museums.map((museum, index) => (
-          <Marker
-            key={`museum-${index}`}
-            coordinate={{
-              latitude: museum.LATITUDE,
-              longitude: museum.LONGITUDE
-            }}
-            title={museum.name}
-            pinColor="orange" // 박물관은 주황색으로 표시
-          />
-        ))}
-      </MapView>
+        style={styles.list}
+      />
     </View>
   );
 };
 
-export default Page;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 0 // Updated padding to 0 since the map typically occupies full screen
+    flexDirection: 'column'
   },
   map: {
-    width: '100%', // Ensures the map takes up the full width of the container
-    height: '100%' // Ensures the map takes up the full height of the container
+    height: '70%'
+  },
+  list: {
+    height: '30%'
+  },
+  listItem: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc'
+  },
+  listItemText: {
+    fontSize: 16
   }
 });
+
+export default Page;
+
