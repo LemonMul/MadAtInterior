@@ -9,30 +9,32 @@ import {
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
 
-const handleStart = () => {
-  router.replace("place/placeLoading");
+const moveToCompleted = () => {
+  router.replace("place/placeCompleted");
 }
 
-const placeFirst = () => {
+const placeLoading = () => {
 
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <Image
-          source={require("@/assets/images/place/blub.png")}
+          source={require("@/assets/images/place/LoadingFace.png")}
           style={styles.blubImage}
         />
-        <Text style={styles.infoTitle}>사용자 맞춤 장소 추천 서비스</Text>
+        <Text style={styles.infoTitle}>비슷한 사용자의 이용기록을</Text>
+        <Text style={styles.infoTitle}>분석하고 있어요</Text>
         <Text style={styles.infoSubtitle}>
-          머신러닝 알고리즘 장소 추천 서비스를 이용해보세요!
+        사용자 평점 및 리뷰 분석을  바탕으로 한  
         </Text>
+        <Text style={styles.infoSubtitle}>머신러닝 분석을 하고 있어요!</Text>
       </View>
-      <TouchableOpacity style={styles.startButton} onPress={handleStart}>
+      <TouchableOpacity style={styles.startButton} onPress={moveToCompleted}>
         <Image
           source={require("@/assets/images/buttonPurple.png")}
           style={styles.buttonBackground}
         />
-        <Text style={styles.startButtonText}>시작하기</Text>
+        <Text style={styles.startButtonText}> . . .</Text>
       </TouchableOpacity>
     </View>
   );
@@ -85,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default placeFirst;
+export default placeLoading;

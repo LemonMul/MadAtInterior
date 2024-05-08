@@ -12,6 +12,7 @@ export default {
   yellow: "#FFE352",
   green: "#26C78D",
   blue: "#2F88FC",
+  purple: "#7849ED",
   
   light: {
     text: "#000",
