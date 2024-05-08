@@ -1,5 +1,6 @@
 import Colors from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -9,7 +10,12 @@ import {
   Text,
   TextInput,
   View,
+  TouchableOpacity,
 } from "react-native";
+
+const moveToLoading = () => {
+    router.replace("weathers/weatherLoading");
+}
 
 const WeatherSearch = () => {
   const weatherData = [
@@ -73,6 +79,7 @@ const WeatherSearch = () => {
     </View>
   );
 
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -83,6 +90,14 @@ const WeatherSearch = () => {
             placeholder="날씨를 검색하세요..."
             placeholderTextColor="#B0B0B0"
           />
+          <TouchableOpacity onPress={moveToLoading}>
+           <FontAwesome
+          name={"search"}
+          size={25}
+          color={Colors.gray}
+          style={styles.inputIcon}
+        />
+        </TouchableOpacity>
         </View>
       </View>
       {weatherData.map((item, index) => (
@@ -107,10 +122,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   searchBarContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     backgroundColor: "#f0f0f0",
     borderRadius: 20,
     paddingHorizontal: 15,
   },
+  inputIcon: {
+    marginTop: 5,
+    marginHorizontal: 15
+},
   searchBar: {
     height: 40,
     fontSize: 16,
@@ -153,7 +174,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 20,
     bottom: 0,
-  },
+  },  
 });
 
 export default WeatherSearch;

@@ -11,5 +11,13 @@ export default function MapsLayout() {
           name="weatherSearch"
           options={{ title: "WeatherSearch", presentation: "modal", headerShown:false }}
         />
+         <Stack.Screen
+          name="weatherLoading"
+          options={{ title: "weatherLoading", presentation: "modal", headerShown:false }}
+        />
+         <Stack.Screen
+          name="weatherCompleted"
+          options={{ title: "weatherCompleted", presentation: "modal", headerShown:false }}
+        />
   </Stack>);
 }

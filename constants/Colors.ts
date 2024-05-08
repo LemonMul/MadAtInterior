@@ -11,7 +11,8 @@ export default {
   shadowColor: "#333333",
   yellow: "#FFE352",
   green: "#26C78D",
-
+  blue: "#2F88FC",
+  
   light: {
     text: "#000",
     background: "#fff",
