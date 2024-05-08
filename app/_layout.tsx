@@ -56,7 +56,8 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    <ThemeProvider value={DefaultTheme}>
       <Stack>
       <Stack.Screen name="welcome" options={{ headerShown: false }} />
       <Stack.Screen

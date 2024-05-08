@@ -1,29 +1,17 @@
-//박물관
+//필요3)) 박물관마커 + 내위치 + 상세페이지
+
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, Linking } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
-import { router } from 'expo-router';
-import Colors from '@/constants/Colors';
-import BasicButton from '@/components/BasicButton';
-const moveToLibrary = () => {
-  router.replace("maps/library");
-}
-const moveToPark = () => {
-  router.replace("maps/park");
-}
 
-const moveToMuseum = () => {
-  router.replace("maps/museum");
-}
-
-const Page: React.FC = () => {
+const MuseumScreen: React.FC = () => {
   const [museums, setMuseums] = useState([]);
   const [visibleMuseums, setVisibleMuseums] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [locationErrorMsg, setLocationErrorMsg] = useState<string | null>(null);
-  const [initialRegion, setInitialRegion] = useState(null); // 초기 지도 영역을 저장할 상태 추가
+  const [initialRegion, setInitialRegion] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -36,12 +24,11 @@ const Page: React.FC = () => {
       try {
         const location = await Location.getCurrentPositionAsync({});
         setUserLocation(location.coords);
-        // 사용자 위치를 기준으로 초기 지도 영역 설정
         setInitialRegion({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 0.0922, // 원하는 지도 배율
-          longitudeDelta: 0.0421  // 원하는 지도 배율
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421
         });
       } catch (error) {
         setLocationErrorMsg('Failed to get user location');
@@ -56,33 +43,33 @@ const Page: React.FC = () => {
       const response = await axios.get(url);
       const data = response.data;
       if (data && data.rows) {
-        const cleanedData = data.rows.map((item: any) => ({
+        const cleanedData = data.rows.map((item) => ({
           name: item.row['시설명'],
-          LATITUDE: parseFloat(item.row['위도']),
-          LONGITUDE: parseFloat(item.row['경도']),
-        })).filter((museum: any) => museum.LATITUDE && museum.LONGITUDE);
+          latitude: parseFloat(item.row['위도']),
+          longitude: parseFloat(item.row['경도']),
+        })).filter(museum => museum.latitude && museum.longitude);
         setMuseums(cleanedData);
       } else {
-        console.error('예상한 데이터 구조와 다릅니다:', data);
+        console.error('Unexpected data structure:', data);
       }
     } catch (error) {
-      console.error('서울 박물관 데이터를 가져오는데 실패했습니다', error);
+      console.error('Failed to fetch Seoul museum data', error);
     }
   };
 
   const onRegionChangeComplete = (region: Region) => {
-    const visible = museums.filter(museum => 
-      museum.LATITUDE >= region.latitude - region.latitudeDelta / 2 &&
-      museum.LATITUDE <= region.latitude + region.latitudeDelta / 2 &&
-      museum.LONGITUDE >= region.longitude - region.longitudeDelta / 2 &&
-      museum.LONGITUDE <= region.longitude + region.longitudeDelta / 2
+    const visible = museums.filter(museum =>
+      museum.latitude >= region.latitude - region.latitudeDelta / 2 &&
+      museum.latitude <= region.latitude + region.latitudeDelta / 2 &&
+      museum.longitude >= region.longitude - region.longitudeDelta / 2 &&
+      museum.longitude <= region.longitude + region.longitudeDelta / 2
     );
     setVisibleMuseums(visible);
   };
 
   return (
     <View style={styles.container}>
-      {initialRegion && ( // 초기 지도 영역이 설정되었는지 확인
+      {initialRegion && (
         <MapView
           style={styles.map}
           provider={PROVIDER_GOOGLE}
@@ -95,16 +82,16 @@ const Page: React.FC = () => {
                 latitude: userLocation.latitude,
                 longitude: userLocation.longitude,
               }}
-              title="현재 위치"
+              title="Current Location"
               pinColor="red"
             />
           )}
-          {museums.map((museum, index) => (
+          {visibleMuseums.map((museum, index) => (
             <Marker
               key={index}
               coordinate={{
-                latitude: museum.LATITUDE,
-                longitude: museum.LONGITUDE
+                latitude: museum.latitude,
+                longitude: museum.longitude
               }}
               title={museum.name}
               pinColor="orange"
@@ -112,16 +99,15 @@ const Page: React.FC = () => {
           ))}
         </MapView>
       )}
-      <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
-        <BasicButton style={{width: 110}} text="도서관" onPress={moveToLibrary}></BasicButton>
-        <BasicButton style={{width: 110}} text="공원" onPress={moveToPark}></BasicButton>
-        <BasicButton style={{width: 110}} text="박물관" onPress={moveToMuseum}></BasicButton>
-      </View>
       <FlatList
         data={visibleMuseums}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem}>
+          <TouchableOpacity style={styles.listItem} onPress={() => {
+            const encodedName = encodeURIComponent(item.name);
+            const url = `https://www.google.com/maps/search/?api=1&query=${encodedName}`;
+            Linking.openURL(url);
+          }}>
             <Text style={styles.listItemText}>{item.name}</Text>
           </TouchableOpacity>
         )}
@@ -137,7 +123,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   map: {
-    height: '60%'
+    height: '70%'
   },
   list: {
     height: '30%'
@@ -149,9 +135,7 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 16
-  }, buttonContainer: {
-    flexDirection: 'row'
   }
 });
 
-export default Page;
+export default MuseumScreen;

@@ -5,9 +5,9 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Text, View
 } from "react-native";
-
-import { Text, View } from "@/components/Themed";
+// import { Text, View } from "@/components/Themed";
 import { useState } from "react";
 import { router } from "expo-router";
 import Colors from "@/constants/Colors";

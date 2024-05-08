@@ -4,11 +4,12 @@ import {
   ImageBackground,
   StyleSheet,
   Touchable,
-  TouchableOpacity,
+  TouchableOpacity,Text, View 
+
 } from "react-native";
 import { router } from "expo-router";
 
-import { Text, View } from "@/components/Themed";
+// import { Text, View } from "@/components/Themed";
 import Colors from "@/constants/Colors";
 import BasicButton from "@/components/BasicButton";
 
