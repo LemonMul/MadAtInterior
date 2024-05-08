@@ -1,29 +1,27 @@
-//  필요)) 도서관 마커 + 내위치 마커
+// 도서관 + 내위치 + 리스트 + 상세페이지
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, Linking } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
 
-const Page: React.FC = () => {
+const HomeScreen: React.FC = ({ navigation }) => {
   const [libraries, setLibraries] = useState([]);
   const [visibleLibraries, setVisibleLibraries] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [locationErrorMsg, setLocationErrorMsg] = useState<string | null>(null);
-  const [initialRegion, setInitialRegion] = useState(null); // 초기 지도 영역을 저장할 상태 추가
+  const [initialRegion, setInitialRegion] = useState(null);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setLocationErrorMsg('Permission to access location was denied');
+        alert('Permission to access location was denied');
         return;
       }
 
       try {
         const location = await Location.getCurrentPositionAsync({});
         setUserLocation(location.coords);
-        // 사용자 위치를 기준으로 초기 지도 영역 설정
         setInitialRegion({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -31,7 +29,7 @@ const Page: React.FC = () => {
           longitudeDelta: 0.0421
         });
       } catch (error) {
-        setLocationErrorMsg('Failed to get user location');
+        alert('Failed to get user location');
       }
     })();
     fetchLibraries();
@@ -47,23 +45,24 @@ const Page: React.FC = () => {
     try {
       const responses = await Promise.all(urls.map(url => axios.get(url)));
       const allData = responses.map(response => response.data.SeoulLibraryTimeInfo.row);
-      const cleanedData = allData.flat().map((lib: any) => ({
+      const cleanedData = allData.flat().map((lib, index) => ({
+        id: `${lib.XCNTS}-${lib.YDNTS}-${index}`,  // 고유 ID 생성 방식
         name: lib.LBRRY_NAME,
-        LATITUDE: parseFloat(lib.XCNTS),
-        LONGITUDE: parseFloat(lib.YDNTS)
-      })).filter((library: any) => library.LATITUDE && library.LONGITUDE);
+        latitude: parseFloat(lib.XCNTS),
+        longitude: parseFloat(lib.YDNTS)
+      })).filter(lib => lib.latitude && lib.longitude);
       setLibraries(cleanedData);
     } catch (error) {
-      console.error('Failed to fetch Seoul library data', error);
+      console.error('Failed to fetch library data', error);
     }
   };
 
   const onRegionChangeComplete = (region) => {
     const visible = libraries.filter(library => 
-      library.LATITUDE >= region.latitude - region.latitudeDelta / 2 &&
-      library.LATITUDE <= region.latitude + region.latitudeDelta / 2 &&
-      library.LONGITUDE >= region.longitude - region.longitudeDelta / 2 &&
-      library.LONGITUDE <= region.longitude + region.longitudeDelta / 2
+      library.latitude >= region.latitude - region.latitudeDelta / 2 &&
+      library.latitude <= region.latitude + region.latitudeDelta / 2 &&
+      library.longitude >= region.longitude - region.longitudeDelta / 2 &&
+      library.longitude <= region.longitude + region.longitudeDelta / 2
     );
     setVisibleLibraries(visible);
   };
@@ -91,8 +90,8 @@ const Page: React.FC = () => {
             <Marker
               key={index}
               coordinate={{
-                latitude: library.LATITUDE,
-                longitude: library.LONGITUDE
+                latitude: library.latitude,
+                longitude: library.longitude
               }}
               title={library.name}
               pinColor="purple"
@@ -102,9 +101,13 @@ const Page: React.FC = () => {
       )}
       <FlatList
         data={visibleLibraries}
-        keyExtractor={item => item.name}
+        keyExtractor={item => item.id}  // 고유 ID 사용
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem}>
+          <TouchableOpacity style={styles.listItem} onPress={() => {
+            const encodedName = encodeURIComponent(item.name);
+            const url = `https://www.google.com/maps/search/?api=1&query=${encodedName}`;
+            Linking.openURL(url);
+          }}>
             <Text style={styles.listItemText}>{item.name}</Text>
           </TouchableOpacity>
         )}
@@ -135,4 +138,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Page;
+export default HomeScreen;
