@@ -9,14 +9,18 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import Colors from '@/constants/Colors';
 import { useHeaderHeight } from '@react-navigation/elements';
-import CategoryButtons from '@/components/CategoryButtons';
-import Listings from '@/components/Listings';
-import listingData from '@/data/case.json';
-import CompanyListings from '@/components/CompanyListings';
-import companyData from '@/data/company.json';
+import { router } from "expo-router";
+
+const handleWeather = () => {
+  router.replace("weathers/weatherFirst");
+};
+
+const handleMaps = () => {
+  router.replace("maps/fullMarkerMap")
+}
 
 const Page = () => {
   const headerHeight = useHeaderHeight();
@@ -29,62 +33,45 @@ const Page = () => {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          headerTransparent: true,
-          headerTitle: '',
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => {}} style={{ marginLeft: 20 }}>
-              <Image
-                source={{
-                  uri: 'https://cdn.pixabay.com/photo/2017/07/18/23/40/group-2517459_1280.png',
-                }}
-                style={{ width: 40, height: 40, borderRadius: 10 }}
-              />
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <TouchableOpacity
-              onPress={() => {}}
-              style={{
-                elevation: 3,
-                marginRight: 20,
-                backgroundColor: Colors.white,
-                padding: 10,
-                borderRadius: 10,
-                shadowColor: Colors.black,
-                shadowOffset: { width: 2, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 3,
-              }}
-            >
-              <Ionicons name="notifications" size={20} color={Colors.black} />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-      <View style={[styles.container, { paddingTop: headerHeight }]}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.searchSectionWrapper}>
-            <View style={styles.searchBar}>
-              <Ionicons name="search" size={18} />
-              <TextInput placeholder="카테고리 검색" />
-            </View>
-            <TouchableOpacity onPress={() => {}} style={styles.filterBtn}>
-              <Ionicons
-                name="options"
-                size={28}
-                style={{ marginRight: 5 }}
-                color={Colors.white}
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.headingText}>최근 인기 시공 사례</Text>
-          <CategoryButtons onCategoryChanged={onCatChanged} />
-          <Listings listings={listingData} category={category} />
-          <CompanyListings listings={companyData} />
-        </ScrollView>
+    <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/FigureTop.png")}
+        />
       </View>
+    <View style={styles.container}>
+      <View style={[styles.topBar]}>
+        <FontAwesome name="map-marker" size={24} color="black" />
+        <Text style={styles.location}>시청역.서울특별시 중구 지하 101</Text>
+        <FontAwesome name="user-circle-o" size={30} color="black" />
+      </View>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search"
+        placeholderTextColor="#B0B0B0"
+      />
+      <View style={styles.banner}>
+        <Text style={styles.bannerText}>Lemon MuL</Text>
+        <Text style={styles.bannerSubText}>:Free to Go everywhere!</Text>
+        <TouchableOpacity style={styles.startButton} onPress={handleMaps}>
+          <Text style={styles.startButtonText}>시작하기</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={[styles.gridButton, styles.blueButton]}>
+          <Text style={styles.gridButtonText}>서울시 탐색</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.gridButton, styles.orangeButton]}>
+          <Text style={styles.gridButtonText}>리뷰 / 평가</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.gridButton, styles.greenButton]} onPress={handleWeather}>
+          <Text style={styles.gridButtonText}>날씨 기반 추천 서비스</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.gridButton, styles.yellowButton]}>
+          <Text style={styles.gridButtonText}>사용자 기반 추천 서비스</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
     </>
   );
 };
@@ -94,30 +81,84 @@ export default Page;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: Colors.bgColor,
+    padding: 20,
+    backgroundColor: "white",
   },
-  headingText: {
-    fontSize: 28,
-    fontWeight: '500',
-    color: Colors.black,
-    marginTop: 10,
+  imageContainer: { height: "20%", backgroundColor: Colors.white },
+  image: { width: "100%", height: 130 },
+  topBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
   },
-  searchSectionWrapper: {
-    flexDirection: 'row',
-    marginVertical: 20,
+  location: {
+    flex: 1,
+    marginLeft: 10,
+    color: "black",
+    fontWeight: "bold",
   },
   searchBar: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: Colors.searchBar,
-    padding: 16,
-    borderRadius: 10,
+    height: 40,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginBottom: 20,
   },
-  filterBtn: {
-    backgroundColor: Colors.primaryColor,
-    padding: 12,
+  banner: {
+    backgroundColor: "#d7e5a5",
     borderRadius: 10,
-    marginLeft: 20,
+    padding: 20,
+    marginBottom: 20,
+    justifyContent: "center",
+  },
+  bannerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  bannerSubText: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  startButton: {
+    backgroundColor: "#4589ff",
+    borderRadius: 20,
+    marginTop: 15,
+    alignSelf: "flex-end",
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+  },
+  startButtonText: {
+    color: "white",
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  gridButton: {
+    width: "48%",
+    height: 120,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    elevation: 3,
+  },
+  blueButton: {
+    backgroundColor: "#5ea3ff",
+  },
+  orangeButton: {
+    backgroundColor: "#ff715e",
+  },
+  greenButton: {
+    backgroundColor: "#66d9a7",
+  },
+  yellowButton: {
+    backgroundColor: "#ffcf5e",
+  },
+  gridButtonText: {
+    color: "black",
+    fontWeight: "bold",
   },
 });

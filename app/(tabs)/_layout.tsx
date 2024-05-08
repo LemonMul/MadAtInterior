@@ -16,18 +16,12 @@ export default function _layout() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: Colors.black,
         tabBarInactiveTintColor: Colors.gray,
+        headerShown:false,
       }}
     >
+
       <Tabs.Screen
-        name="index"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="compass" size={28} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="category"
+        name="basicMap"
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="space-dashboard" size={28} color={color} />
@@ -35,24 +29,34 @@ export default function _layout() {
         }}
       />
       <Tabs.Screen
-        name="home"
+        name="compass"
         options={{
           tabBarIcon: ({ color }) => (
-            <View
-              style={{
-                backgroundColor: Colors.primaryColor,
-                padding: 10,
-                borderRadius: 10,
-                height: 50,
-              }}
-            >
-              <Ionicons name="home" size={28} color={Colors.white} />
-            </View>
+            <Ionicons name="compass" size={28} color={color} />
           ),
         }}
       />
+
       <Tabs.Screen
-        name="bookmarks"
+        name="index"
+        options={{tabBarIcon: ({ color }) => (
+          <View
+            style={{
+              backgroundColor: Colors.primaryColor,
+              padding: 10,
+              borderRadius: 10,
+              height: 50,
+            }}
+          >
+            <Ionicons name="home" size={28} color={Colors.white} />
+          </View>
+        ),
+          
+        }}
+      />
+
+      <Tabs.Screen
+        name="bookmark"
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="bookmark" size={28} color={color} />
@@ -60,7 +64,7 @@ export default function _layout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="user"
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome name="user" size={28} color={color} />

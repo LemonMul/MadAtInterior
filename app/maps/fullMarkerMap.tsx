@@ -1,10 +1,22 @@
-//1,2,3 통합본 : 내위치, 공원, 박물관, 도서관
-
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, Text, TouchableOpacity, ScrollView } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
+
+import { router } from 'expo-router';
+import Colors from '@/constants/Colors';
+import BasicButton from '@/components/BasicButton';
+const moveToLibrary = () => {
+  router.replace("maps/library");
+}
+const moveToPark = () => {
+  router.replace("maps/park");
+}
+
+const moveToMuseum = () => {
+  router.replace("maps/museum");
+}
 
 const Page: React.FC = () => {
   const [parks, setParks] = useState([]);
@@ -124,6 +136,8 @@ const Page: React.FC = () => {
     ));
   };
 
+  const visiblePlaces = visibleParks.concat(visibleLibraries, visibleMuseums);
+
   return (
     <View style={styles.container}>
       {initialRegion && (
@@ -178,16 +192,27 @@ const Page: React.FC = () => {
           ))}
         </MapView>
       )}
-      <FlatList
-        data={visibleParks.concat(visibleLibraries, visibleMuseums)}
-        keyExtractor={(item, index) => `place-${index}`}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.listItem}>
-            <Text style={styles.listItemText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-        style={styles.list}
-      />
+    
+      <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
+        <BasicButton style={{width: 110}} text="도서관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 110}} text="공원" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 110}} text="박물관" onPress={moveToLibrary}></BasicButton>
+      </View>
+      {visiblePlaces.length > 0 ? (
+        <FlatList
+          data={visiblePlaces}
+          keyExtractor={(item, index) => `place-${index}`}
+          renderItem={({ item }) => (
+            <TouchableOpacity style={styles.listItem}>
+              <Text style={styles.listItemText}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+          style={styles.list}
+        />
+      ) : (
+       <></>
+      )}
+    
     </View>
   );
 };
@@ -198,10 +223,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   map: {
-    height: '70%'
+    height: '60%'
   },
   list: {
-    height: '30%'
+    height: '30%',
+    backgroundColor: '#fff'
   },
   listItem: {
     padding: 10,
@@ -210,8 +236,14 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 16
+  },
+  noDataText: {
+    padding: 10,
+    fontSize: 16,
+    textAlign: 'center'
+  }, buttonContainer: {
+    flexDirection: 'row'
   }
 });
 
 export default Page;
-

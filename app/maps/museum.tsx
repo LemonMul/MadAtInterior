@@ -4,6 +4,19 @@ import { StyleSheet, View, FlatList, Text, TouchableOpacity } from 'react-native
 import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
+import { router } from 'expo-router';
+import Colors from '@/constants/Colors';
+import BasicButton from '@/components/BasicButton';
+const moveToLibrary = () => {
+  router.replace("maps/library");
+}
+const moveToPark = () => {
+  router.replace("maps/park");
+}
+
+const moveToMuseum = () => {
+  router.replace("maps/museum");
+}
 
 const Page: React.FC = () => {
   const [museums, setMuseums] = useState([]);
@@ -99,6 +112,11 @@ const Page: React.FC = () => {
           ))}
         </MapView>
       )}
+      <View style={[styles.buttonContainer, {backgroundColor: Colors.white, justifyContent: 'space-between', paddingHorizontal: 5}]}>
+        <BasicButton style={{width: 110}} text="도서관" onPress={moveToLibrary}></BasicButton>
+        <BasicButton style={{width: 110}} text="공원" onPress={moveToPark}></BasicButton>
+        <BasicButton style={{width: 110}} text="박물관" onPress={moveToMuseum}></BasicButton>
+      </View>
       <FlatList
         data={visibleMuseums}
         keyExtractor={item => item.name}
@@ -119,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   map: {
-    height: '70%'
+    height: '60%'
   },
   list: {
     height: '30%'
@@ -131,6 +149,8 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 16
+  }, buttonContainer: {
+    flexDirection: 'row'
   }
 });
 
