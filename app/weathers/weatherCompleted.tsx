@@ -14,6 +14,10 @@ const moveToPlace = () => {
   router.replace("weathers/moreRecommendation");
 }
 
+const moveToFinish = () => {
+  router.replace("weathers/weatherFinish");
+}
+
 const weatherCompleted = () => {
   return (
     <View style={styles.container}>
@@ -27,7 +31,7 @@ const weatherCompleted = () => {
       <Text style={styles.subtitle}>오늘은 햇빛이 좋네요!</Text>
       <Text style={styles.subtitle}>이곳은 어떨까요?</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.likeButton]}>
+        <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>
           <Text style={styles.buttonText}>좋아요!</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.dislikeButton]} onPress={moveToPlace}>

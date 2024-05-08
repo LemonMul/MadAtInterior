@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import Colors from "@/constants/Colors";
 
-const placeFinish = () => {
+const weatherFinish = () => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -20,7 +20,7 @@ const placeFinish = () => {
       <Text style={styles.title}>(장소이름)에서 좋은 하루 보내세요!</Text>
       <View style={styles.imageContainer}>
         <Image
-          source={require("@/assets/images/place/lake.png")}
+          source={require("@/assets/images/weather/SeoulLib.png")}
           style={styles.placeImage}
         />
       </View>
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default placeFinish;
+export default weatherFinish;

@@ -20,6 +20,10 @@ export default function MapsLayout() {
           options={{ title: "weatherCompleted", presentation: "modal", headerShown:false }}
         />
         <Stack.Screen
+          name="weatherFinish"
+          options={{ title: "weatherFinish", presentation: "modal", headerShown:false }}
+        />
+        <Stack.Screen
           name="moreRecommendation"
           options={{ title: "moreRecommendation", presentation: "modal", headerShown:false }}
         />
