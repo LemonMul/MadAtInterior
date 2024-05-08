@@ -1,4 +1,4 @@
-// 박물관 위치마커 + 구 나누기 
+// 박물관 위치마커 + 구 나누기요
 
 
 import React, { useState, useEffect } from 'react';
