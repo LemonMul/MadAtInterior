@@ -19,7 +19,11 @@ const handleWeather = () => {
 };
 
 const handleMaps = () => {
-  router.push("maps")
+  router.push("maps");
+}
+
+const handlePlace =() => {
+  router.push("place");
 }
 
 const Page = () => {
@@ -67,7 +71,7 @@ const Page = () => {
         <TouchableOpacity style={[styles.gridButton, styles.greenButton]} onPress={handleWeather}>
           <Text style={styles.gridButtonText}>날씨 기반 추천 서비스</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.gridButton, styles.yellowButton]}>
+        <TouchableOpacity style={[styles.gridButton, styles.yellowButton]} onPress={handlePlace}>
           <Text style={styles.gridButtonText}>사용자 기반 추천 서비스</Text>
         </TouchableOpacity>
       </View>

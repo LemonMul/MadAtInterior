@@ -8,6 +8,11 @@ import {
   View,
 } from "react-native";
 import Colors from "@/constants/Colors";
+import { router } from "expo-router";
+
+const moveToPlace = () => {
+  router.replace("weathers/moreRecommendation");
+}
 
 const weatherCompleted = () => {
   return (
@@ -25,7 +30,7 @@ const weatherCompleted = () => {
         <TouchableOpacity style={[styles.button, styles.likeButton]}>
           <Text style={styles.buttonText}>좋아요!</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.dislikeButton]}>
+        <TouchableOpacity style={[styles.button, styles.dislikeButton]} onPress={moveToPlace}>
           <Text style={styles.buttonText}>별로에요!</Text>
         </TouchableOpacity>
       </View>
