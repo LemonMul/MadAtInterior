@@ -15,11 +15,11 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import { router } from "expo-router";
 
 const handleWeather = () => {
-  router.replace("weathers/weatherFirst");
+  router.push("weathers");
 };
 
 const handleMaps = () => {
-  router.replace("maps/fullMarkerMap")
+  router.push("maps")
 }
 
 const Page = () => {

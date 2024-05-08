@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity
 import { router } from "expo-router";
 
 const moveToWeatherPage = () => {
-  router.replace("weathers/weatherFirst");
+  router.replace("weathers/weatherSearch");
 };
 
 export default function NewPage() {

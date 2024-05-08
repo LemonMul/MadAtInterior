@@ -16,7 +16,7 @@ export const unstable_settings = {
 
 
 export default function MapsLayout() {
-  return(<Stack screenOptions={{headerShown: true}}>
+  return(<Stack screenOptions={{ headerShown: true}}>
        <Stack.Screen
           name="fullMarkerMap"
           options={{headerShown: false}}

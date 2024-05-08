@@ -20,12 +20,12 @@ export default function WelcomeScreen() {
         <Image
           style={styles.image}
           resizeMode="contain"
-          source={require("../assets/images/LemonMul.png")}
+          source={require("@/assets/images/company/LemonMul.png")}
         ></Image>
         <Image
           style={styles.image}
           resizeMode="contain"
-          source={require("../assets/images/FREEPATH.png")}
+          source={require("@/assets/images/company/FREEPATH.png")}
         ></Image>
       </View>
       <View style={styles.buttonContainer}>
