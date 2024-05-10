@@ -73,7 +73,8 @@ function RootLayoutNav() {
           options={{ title: "TABS", headerShown: false }}
         />
         <Stack.Screen name="weathers" options={{ title: "WEATHERS", headerShown: false }}/>
-        <Stack.Screen name="seoul" options={{ title: "SEOUL", headerShown: false }}/>
+        <Stack.Screen name="place" options={{ title: "PLACE", headerShown: false }}/>
+        <Stack.Screen name="borough" options={{ title: "BOROUGH", headerShown: false }}/>
       </Stack>
       
     </ThemeProvider>
