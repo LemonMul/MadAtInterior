@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
+import BackButton from "@/components/BackButton";
 
 const moveToPlace = () => {
   router.replace("weathers/moreRecommendation");
@@ -21,6 +22,9 @@ const moveToFinish = () => {
 const weatherCompleted = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <BackButton />
+      </View>
       <View style={styles.imageContainer}>
         <Image
           source={require("@/assets/images/weather/ELib.png")}
@@ -49,6 +53,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     backgroundColor: "#ffffff",
+  },
+  header : {
+    position: 'absolute',
+    top : 20,
+    left: 10,
+    width: '100%',
   },
   imageContainer: {
     marginBottom: 20,

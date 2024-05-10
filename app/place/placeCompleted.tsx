@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   ImageBackground,
@@ -6,20 +6,24 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import Colors from "@/constants/Colors";
-import { router } from "expo-router";
+} from 'react-native';
+import Colors from '@/constants/Colors';
+import { router } from 'expo-router';
+import Header from '@/components/Header';
 
 const moveToFinish = () => {
-  router.replace("place/placeFinish");
-}
+  router.replace('place/placeFinish');
+};
 
 const placeCompleted = () => {
   return (
     <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Header />
+      </View>
       <View style={styles.imageContainer}>
         <Image
-          source={require("@/assets/images/place/lake.png")}
+          source={require('@/assets/images/place/lake.png')}
           style={styles.libraryImage}
         />
       </View>
@@ -27,10 +31,13 @@ const placeCompleted = () => {
       <Text style={styles.title}>서서울호수공원을 방문하고 있어요!</Text>
       <Text style={styles.subtitle}>#산책 #걷기 #평화 #친구 #가을</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>
+        <TouchableOpacity
+          style={[styles.button, styles.likeButton]}
+          onPress={moveToFinish}
+        >
           <Text style={styles.buttonText}>좋아요!</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.dislikeButton]} >
+        <TouchableOpacity style={[styles.button, styles.dislikeButton]}>
           <Text style={styles.buttonText}>별로에요!</Text>
         </TouchableOpacity>
       </View>
@@ -41,36 +48,41 @@ const placeCompleted = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
+  },
+  headerContainer: {
+    position: 'absolute',
+    top: 20,
+    left: 10,
   },
   imageContainer: {
     marginBottom: 20,
     borderRadius: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   libraryImage: {
     width: 300,
     height: 180,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.black,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
     color: Colors.black,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 5,
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 20,
   },
   button: {
@@ -78,8 +90,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 10,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   likeButton: {
     backgroundColor: Colors.purple,

@@ -1,8 +1,8 @@
-import React from "react";
-import { TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter, router } from "expo-router";
-import Colors from "@/constants/Colors";
+import React from 'react';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter, router } from 'expo-router';
+import Colors from '@/constants/Colors';
 
 interface BackButtonProps {
   color?: string;

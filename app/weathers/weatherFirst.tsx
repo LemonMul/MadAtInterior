@@ -1,17 +1,11 @@
-import React from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Colors from "@/constants/Colors";
-import { useRouter, router } from "expo-router";
-import BackButton from "@/components/BackButton";
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Colors from '@/constants/Colors';
+import { useRouter, router } from 'expo-router';
+import BackButton from '@/components/BackButton';
 
 const handleStart = () => {
-  router.replace("/weathers/weatherSearch");
+  router.replace('/weathers/weatherSearch');
 };
 
 const WeatherFirst = () => {
@@ -23,19 +17,19 @@ const WeatherFirst = () => {
         <BackButton router={router} />
       </View>
       <Image
-        source={require("@/assets/images/weather/Cloud.png")}
+        source={require('@/assets/images/weather/Cloud.png')}
         style={styles.weatherIconMoon}
       />
       <Image
-        source={require("@/assets/images/weather/LittleRain.png")}
+        source={require('@/assets/images/weather/LittleRain.png')}
         style={styles.weatherIconLittleRain}
       />
       <Image
-        source={require("@/assets/images/weather/Rain.png")}
+        source={require('@/assets/images/weather/Rain.png')}
         style={styles.weatherIconSunRain}
       />
       <Image
-        source={require("@/assets/images/weather/Sun.png")}
+        source={require('@/assets/images/weather/Sun.png')}
         style={styles.weatherIconSun}
       />
       <View style={styles.textContainer}>
@@ -46,7 +40,7 @@ const WeatherFirst = () => {
       </View>
       <TouchableOpacity style={styles.startButton} onPress={handleStart}>
         <Image
-          source={require("@/assets/images/buttonBackgroundBlue.png")}
+          source={require('@/assets/images/buttonBackgroundBlue.png')}
           style={styles.buttonBackground}
         />
         <Text style={styles.startButtonText}>시작하기</Text>
@@ -58,11 +52,11 @@ const WeatherFirst = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#69b3f9",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#69b3f9',
   },
-  header:{
+  header: {
     width: '100%',
     position: 'absolute',
     top: 20,
@@ -71,48 +65,48 @@ const styles = StyleSheet.create({
   weatherIconMoon: {
     width: 150,
     height: 150,
-    position: "absolute",
+    position: 'absolute',
     top: 60,
     left: 30,
   },
   weatherIconLittleRain: {
     width: 150,
     height: 150,
-    position: "absolute",
+    position: 'absolute',
     top: 250,
     left: 50,
   },
   weatherIconSunRain: {
     width: 150,
     height: 150,
-    position: "absolute",
+    position: 'absolute',
     top: 180,
     right: 40,
   },
   weatherIconSun: {
     width: 130,
     height: 130,
-    position: "absolute",
+    position: 'absolute',
     top: 20,
     right: 30,
   },
   textContainer: {
-    alignItems: "flex-start",
-    position: "absolute",
+    alignItems: 'flex-start',
+    position: 'absolute',
     bottom: 150,
     left: 30,
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.white,
-    textAlign: "left",
+    textAlign: 'left',
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 18,
     color: Colors.white,
-    textAlign: "left",
+    textAlign: 'left',
     marginBottom: 3,
   },
   startButton: {
@@ -121,16 +115,16 @@ const styles = StyleSheet.create({
     bottom: 30,
     left: 30,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonBackground: {
     width: 250,
     height: 60,
-    resizeMode: "contain",
+    resizeMode: 'contain',
   },
   startButtonText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.white,
     position: 'absolute',
   },

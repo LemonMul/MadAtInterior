@@ -1,7 +1,7 @@
 import BackButton from "@/components/BackButton";
 import Colors from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import React from "react";
 import {
   Image,
@@ -80,6 +80,7 @@ const WeatherSearch = () => {
     </View>
   );
 
+  const router = useRouter();
 
   return (
     <ScrollView style={styles.container}>
