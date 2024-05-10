@@ -25,10 +25,10 @@ const WeatherLoading = () => {
         현재 날씨에 맞는 장소를 분석하고 있어요
       </Text>
       <Text style={styles.loadingSubtitle}>
-        현재 위치의 날씨 정보를 바탕으로 한
+        실시간 날씨를 반영하여
       </Text>
       <Text style={styles.loadingSubtitle}>
-        머신러닝 분석을 하고 있어요!
+        고정밀 위치 매핑중이에요!
       </Text>
 
       <TouchableOpacity style={styles.loadingIndicatorContainer} onPress={moveToCompleted}>

@@ -1,3 +1,4 @@
+import BackButton from "@/components/BackButton";
 import Colors from "@/constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -21,7 +22,7 @@ const WeatherSearch = () => {
   const weatherData = [
     {
       temp: "20°",
-      location: "서울시, 종로구",
+      location: "서울시, 은평구",
       high: "21",
       low: "19",
       label: "흐림",
@@ -83,7 +84,10 @@ const WeatherSearch = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.title}>날씨</Text>
+        <View style={styles.header}>
+          <BackButton router={router} />
+          <Text style={styles.title}>날씨</Text>
+        </View>
         <View style={styles.searchBarContainer}>
           <TextInput
             style={styles.searchBar}
@@ -114,7 +118,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   headerContainer: {
+    paddingTop: 20,
     marginBottom: 20,
+  },
+  header: {
+    flexDirection: 'row',
   },
   title: {
     fontSize: 28,

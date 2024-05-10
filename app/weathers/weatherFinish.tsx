@@ -12,12 +12,13 @@ const weatherFinish = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Image
-          source={require("@/assets/images/buttonPurple.png")}
+          source={require("@/assets/images/buttonBackgroundBlue.png")}
           style={styles.buttonBackground}
         />
         <Text style={styles.buttonText}>좋아요!</Text>
       </View>
-      <Text style={styles.title}>(장소이름)에서 좋은 하루 보내세요!</Text>
+      <Text style={styles.title}>은평 구립 도서관에서</Text>
+      <Text style={styles.title}>좋은 하루 보내세요!</Text>
       <View style={styles.imageContainer}>
         <Image
           source={require("@/assets/images/weather/SeoulLib.png")}

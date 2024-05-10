@@ -26,6 +26,10 @@ const handlePlace =() => {
   router.push("place");
 }
 
+const handleSeoul = () => {
+  router.push("seoul");
+}
+
 const Page = () => {
   const headerHeight = useHeaderHeight();
   const [category, setCategory] = useState('전체');
@@ -46,7 +50,7 @@ const Page = () => {
     <View style={styles.container}>
       <View style={[styles.topBar]}>
         <FontAwesome name="map-marker" size={24} color="black" />
-        <Text style={styles.location}>시청역.서울특별시 중구 지하 101</Text>
+        <Text style={styles.location}>구파발역.서울특별시 은평구 지하 101</Text>
         <FontAwesome name="user-circle-o" size={30} color="black" />
       </View>
       <TextInput
@@ -62,7 +66,7 @@ const Page = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.gridButton, styles.blueButton]}>
+        <TouchableOpacity style={[styles.gridButton, styles.blueButton]} onPress={handleSeoul}>
           <Text style={styles.gridButtonText}>서울시 탐색</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.gridButton, styles.orangeButton]}>
@@ -72,7 +76,7 @@ const Page = () => {
           <Text style={styles.gridButtonText}>날씨 기반 추천 서비스</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.gridButton, styles.yellowButton]} onPress={handlePlace}>
-          <Text style={styles.gridButtonText}>사용자 기반 추천 서비스</Text>
+          <Text style={styles.gridButtonText}>사용자 맞춤 추천 서비스</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -148,6 +152,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15,
     elevation: 3,
+    
   },
   blueButton: {
     backgroundColor: "#5ea3ff",
@@ -162,7 +167,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffcf5e",
   },
   gridButtonText: {
+    fontSize: 20,
     color: "black",
     fontWeight: "bold",
+    textAlign: 'center',
   },
 });

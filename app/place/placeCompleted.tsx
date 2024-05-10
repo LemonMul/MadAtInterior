@@ -23,7 +23,9 @@ const placeCompleted = () => {
           style={styles.libraryImage}
         />
       </View>
-      <Text style={styles.title}>다른 이용자들은 서울 식물원 호수원을 방문하고 있어요!</Text>
+      <Text style={styles.title}>다른 이용자들은</Text>
+      <Text style={styles.title}>서서울호수공원을 방문하고 있어요!</Text>
+      <Text style={styles.subtitle}>#산책 #걷기 #평화 #친구 #가을</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>
           <Text style={styles.buttonText}>좋아요!</Text>

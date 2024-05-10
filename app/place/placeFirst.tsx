@@ -18,10 +18,12 @@ const placeFirst = () => {
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>
+        <View style={styles.imageContainer}>
         <Image
           source={require("@/assets/images/place/blub.png")}
           style={styles.blubImage}
         />
+        </View>
         <Text style={styles.infoTitle}>사용자 맞춤 장소 추천 서비스</Text>
         <Text style={styles.infoSubtitle}>
           머신러닝 알고리즘 장소 추천 서비스를 이용해보세요!
@@ -46,13 +48,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: Colors.purple,
   },
+
   infoContainer: {
     alignItems: "center",
     marginBottom: 40,
   },
+  imageContainer:{
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   blubImage: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 140,
     marginBottom: 20,
   },
   infoTitle: {

@@ -23,12 +23,12 @@ const weatherCompleted = () => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require("@/assets/images/weather/SeoulLib.png")}
+          source={require("@/assets/images/weather/ELib.png")}
           style={styles.libraryImage}
         />
       </View>
-      <Text style={styles.title}>서울 도서관</Text>
-      <Text style={styles.subtitle}>오늘은 햇빛이 좋네요!</Text>
+      <Text style={styles.title}>은평 구립 도서관</Text>
+      <Text style={styles.subtitle}>오늘은 날씨가 흐려요!</Text>
       <Text style={styles.subtitle}>이곳은 어떨까요?</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>

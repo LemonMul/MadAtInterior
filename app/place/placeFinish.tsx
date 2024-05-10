@@ -17,7 +17,7 @@ const placeFinish = () => {
         />
         <Text style={styles.buttonText}>좋아요!</Text>
       </View>
-      <Text style={styles.title}>(장소이름)에서 좋은 하루 보내세요!</Text>
+      <Text style={styles.title}>서서울공원에서 좋은 하루 보내세요!</Text>
       <View style={styles.imageContainer}>
         <Image
           source={require("@/assets/images/place/lake.png")}
