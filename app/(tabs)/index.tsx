@@ -26,8 +26,8 @@ const handlePlace =() => {
   router.push("place");
 }
 
-const handleSeoul = () => {
-  router.push("seoul");
+const handleBorough = () => {
+  router.push("borough");
 }
 
 const Page = () => {
@@ -66,7 +66,7 @@ const Page = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={[styles.gridButton, styles.blueButton]} onPress={handleSeoul}>
+        <TouchableOpacity style={[styles.gridButton, styles.blueButton]} onPress={handleBorough}>
           <Text style={styles.gridButtonText}>서울시 탐색</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.gridButton, styles.orangeButton]}>

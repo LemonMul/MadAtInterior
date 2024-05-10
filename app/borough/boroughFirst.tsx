@@ -20,8 +20,15 @@ const districts = [
   { name: "동작구", backgroundColor: "#EE82EE" },
 ];
 
-const SeoulFirstScreen = () => {
+const BoroughFirst = () => {
   const router = useRouter();
+
+  const handleNavigate = (district: string) => {
+    router.push({
+      pathname: "/borough/detailBorough",
+      params: { district },
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -34,6 +41,7 @@ const SeoulFirstScreen = () => {
           <TouchableOpacity
             key={index}
             style={[styles.gridItem, { backgroundColor: district.backgroundColor }]}
+            onPress={() => handleNavigate(district.name)}
           >
             <Text style={styles.gridText}>{district.name}</Text>
           </TouchableOpacity>
@@ -81,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SeoulFirstScreen;
+export default BoroughFirst;
