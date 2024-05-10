@@ -27,7 +27,7 @@ const places = [
     rating: 4.8,
     people: 28,
     hashtag: '#공부',
-    image: require('@/assets/images/borough/Cheonggye.png'),
+    image: require('@/assets/images/borough/JongRoLib.png'),
   },
   {
     name: '낙산근린공원',
@@ -35,7 +35,7 @@ const places = [
     rating: 4.8,
     people: 25,
     hashtag: '#공원',
-    image: require('@/assets/images/borough/Cheonggye.png'),
+    image: require('@/assets/images/borough/park.png'),
   },
 ];
 
