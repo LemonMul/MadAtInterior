@@ -1,25 +1,49 @@
-import React from "react";
-import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Colors from "@/constants/Colors";
 import { router } from "expo-router";
 import BackButton from "@/components/BackButton";
 
-const moveToPlace = () => {
-  router.replace("weathers/moreRecommendation");
-}
+const WeatherDashboard = () => {
+  const [weatherData, setWeatherData] = useState({});
+  const lat = 37.5665;
+  const long = 126.978;
 
-const moveToFinish = () => {
-  router.replace("weathers/weatherFinish");
-}
+  useEffect(() => {
+    console.log('Component mounted, starting to fetch weather data...');
+    loadWeatherPlaces(lat, long);
+  }, []);
 
-const weatherCompleted = () => {
+  const loadWeatherPlaces = (lat, long) => {
+    console.log(`Fetching weather data for latitude: ${lat}, longitude: ${long}`);
+    fetch(`http://192.168.35.247:5001/weather?latitude=${lat}&longitude=${long}`)
+      .then(response => {
+        console.log('Received response from server...');
+        if (!response.ok) {
+          throw new Error(`HTTP status ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Processing data...', data);
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        setWeatherData(data);
+      })
+      .catch(error => {
+        console.error('Error fetching weather data:', error);
+      });
+  };
+
+  const moveToPlace = () => {
+    router.replace("weathers/moreRecommendation");
+  }
+
+  const moveToFinish = () => {
+    router.replace("weathers/weatherFinish");
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -31,8 +55,8 @@ const weatherCompleted = () => {
           style={styles.libraryImage}
         />
       </View>
-      <Text style={styles.title}>은평 구립 도서관</Text>
-      <Text style={styles.subtitle}>오늘은 날씨가 흐려요!</Text>
+      <Text style={styles.title}>{weatherData.name}</Text>
+      <Text style={styles.subtitle}>오늘은 날씨가 {weatherData.sky}!</Text>
       <Text style={styles.subtitle}>이곳은 어떨까요?</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>
@@ -46,17 +70,19 @@ const weatherCompleted = () => {
   );
 };
 
+export default WeatherDashboard;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
     backgroundColor: "#ffffff",
   },
-  header : {
+  header: {
     position: 'absolute',
-    top : 20,
+    top: 20,
     left: 10,
     width: '100%',
   },
@@ -106,5 +132,3 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
 });
-
-export default weatherCompleted;
