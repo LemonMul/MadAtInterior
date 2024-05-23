@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { router } from 'expo-router';
 import Header from '@/components/Header';
 import Colors from '@/constants/Colors';
+import FlaskConfig from '@/flask.config';
 
 const SvdRec = () => {
   const [svdData, setSvdData] = useState([]);
@@ -22,33 +17,36 @@ const SvdRec = () => {
 
   const loadSvdPlaces = (userid) => {
     console.log(`Fetching SVD data for user id: ${userid}`);
-    fetch(`http://192.168.35.247:5002/svd?userid=${userid}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json'
+    fetch(
+      `http://${FlaskConfig.Private_IP_Address}:${FlaskConfig.svd}/svd?userid=${userid}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
       }
-    })
-    .then(response => {
-      console.log('Received response from server');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Data successfully parsed as JSON', data);
-      if (data.error) {
-        setErrorMessage(data.error);
-        setSvdData([]);
-      } else {
-        setSvdData(data);
-        setErrorMessage('');
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching svd data:', error);
-      setErrorMessage('Failed to fetch data.');
-    });
+    )
+      .then((response) => {
+        console.log('Received response from server');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Data successfully parsed as JSON', data);
+        if (data.error) {
+          setErrorMessage(data.error);
+          setSvdData([]);
+        } else {
+          setSvdData(data);
+          setErrorMessage('');
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching svd data:', error);
+        setErrorMessage('Failed to fetch data.');
+      });
   };
 
   const moveToFinish = () => {
@@ -69,7 +67,9 @@ const SvdRec = () => {
       {svdData.length > 0 ? (
         <>
           <Text style={styles.title}>다른 이용자들은</Text>
-          <Text style={styles.title}>{svdData[0].placeName}을 방문하고 있어요!</Text>
+          <Text style={styles.title}>
+            {svdData[0].placeName}을 방문하고 있어요!
+          </Text>
           <Text style={styles.subtitle}>#{svdData[0].keyword.join(' #')}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: Colors.black,
     textAlign: 'center',
-  }
+  },
 });
 
 export default SvdRec;

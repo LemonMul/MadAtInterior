@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Colors from "@/constants/Colors";
-import { router } from "expo-router";
-import BackButton from "@/components/BackButton";
+import Colors from '@/constants/Colors';
+import { router } from 'expo-router';
+import BackButton from '@/components/BackButton';
+import FlaskConfig from '@/flask.config';
 
 const WeatherDashboard = () => {
   const [weatherData, setWeatherData] = useState({});
@@ -15,34 +16,38 @@ const WeatherDashboard = () => {
   }, []);
 
   const loadWeatherPlaces = (lat, long) => {
-    console.log(`Fetching weather data for latitude: ${lat}, longitude: ${long}`);
-    fetch(`http://192.168.35.247:5001/weather?latitude=${lat}&longitude=${long}`)
-      .then(response => {
+    console.log(
+      `Fetching weather data for latitude: ${lat}, longitude: ${long}`
+    );
+    fetch(
+      `http://${FlaskConfig.Private_IP_Address}:${FlaskConfig.weather}/weather?latitude=${lat}&longitude=${long}`
+    )
+      .then((response) => {
         console.log('Received response from server...');
         if (!response.ok) {
           throw new Error(`HTTP status ${response.status}`);
         }
         return response.json();
       })
-      .then(data => {
+      .then((data) => {
         console.log('Processing data...', data);
         if (data.error) {
           throw new Error(data.error);
         }
         setWeatherData(data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching weather data:', error);
       });
   };
 
   const moveToPlace = () => {
-    router.replace("weathers/moreRecommendation");
-  }
+    router.replace('weathers/moreRecommendation');
+  };
 
   const moveToFinish = () => {
-    router.replace("weathers/weatherFinish");
-  }
+    router.replace('weathers/weatherFinish');
+  };
 
   return (
     <View style={styles.container}>
@@ -51,7 +56,7 @@ const WeatherDashboard = () => {
       </View>
       <View style={styles.imageContainer}>
         <Image
-          source={require("@/assets/images/weather/ELib.png")}
+          source={require('@/assets/images/weather/ELib.png')}
           style={styles.libraryImage}
         />
       </View>
@@ -59,10 +64,16 @@ const WeatherDashboard = () => {
       <Text style={styles.subtitle}>오늘은 날씨가 {weatherData.sky}!</Text>
       <Text style={styles.subtitle}>이곳은 어떨까요?</Text>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.button, styles.likeButton]} onPress={moveToFinish}>
+        <TouchableOpacity
+          style={[styles.button, styles.likeButton]}
+          onPress={moveToFinish}
+        >
           <Text style={styles.buttonText}>좋아요!</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.dislikeButton]} onPress={moveToPlace}>
+        <TouchableOpacity
+          style={[styles.button, styles.dislikeButton]}
+          onPress={moveToPlace}
+        >
           <Text style={styles.buttonText}>별로에요!</Text>
         </TouchableOpacity>
       </View>
@@ -78,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: "#ffffff",
+    backgroundColor: '#ffffff',
   },
   header: {
     position: 'absolute',
@@ -89,28 +100,28 @@ const styles = StyleSheet.create({
   imageContainer: {
     marginBottom: 20,
     borderRadius: 10,
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   libraryImage: {
     width: 300,
     height: 180,
-    resizeMode: "cover",
+    resizeMode: 'cover',
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     color: Colors.black,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
     color: Colors.black,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 5,
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 20,
   },
   button: {
@@ -118,8 +129,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginHorizontal: 10,
     borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   likeButton: {
     backgroundColor: Colors.blue,
