@@ -71,7 +71,7 @@ def get_weather():
         temp = 14
 
     rain_mapping = {
-        '0': "강수없음",
+        '0': "강수없음", 
         '1': "비",
         '2': "비 또는 눈",
         '3': "눈",
@@ -124,7 +124,7 @@ def get_weather():
     park_lat, lib_lat, muse_lat = None, None, None
     park_long, lib_long, muse_long = None, None, None
     park_adres, lib_adres, muse_adres = None, None, None
-    if (sky in ['맑음', '흐림']) and (rain == ' ') and (15 <= float(temp) <= 29):
+    if (sky in ['맑음', '흐림']) and (rain == '강수없음') and (15 <= float(temp) <= 29):
         # 공원 정보 불러오기 및 추천 로직
         park_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SearchParkInfoService/1/1000/'
         park_response = requests.get(park_url)
@@ -144,7 +144,7 @@ def get_weather():
             if distance < min_distance:
                 min_distance = distance
                 park_name, park_lat, park_long, park_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
-    elif rain != '비가 오고 있지 않습니다.':
+    elif rain != '강수없음':
         # 도서관 정보 불러오기 및 추천 로직
         lib_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SeoulLibraryTimeInfo/1/1000/'
         lib_response = requests.get(lib_url)
