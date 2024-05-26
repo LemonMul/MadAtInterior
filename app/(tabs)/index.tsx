@@ -187,7 +187,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15,
     elevation: 3,
-    
   },
   blueButton: {
     backgroundColor: "#5ea3ff",

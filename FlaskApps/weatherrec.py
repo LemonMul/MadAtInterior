@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 import numpy as np
 from haversine import haversine
+from datasets import load_dataset
+
 
 def get_place_recommendation(my_loc, sky, rain, temp):
     park_name, lib_name, muse_name = None, None, None
@@ -15,7 +17,7 @@ def get_place_recommendation(my_loc, sky, rain, temp):
     park_lat, lib_lat, muse_lat = None, None, None
     park_long, lib_long, muse_long = None, None, None
     park_adres, lib_adres, muse_adres = None, None, None
-    if (sky in ['맑음', '흐림']) and (rain == ' ') and (15 <= float(temp) <= 29):
+    if (sky in ['맑음', '흐림']) and (rain == '강수없음') and (15 <= float(temp) <= 29):
         # 공원 정보 불러오기 및 추천 로직
         park_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SearchParkInfoService/1/1000/'
         park_response = requests.get(park_url)
@@ -29,13 +31,13 @@ def get_place_recommendation(my_loc, sky, rain, temp):
         park['LONGITUDE'] = park['LONGITUDE'].astype(float)
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for row in park.iterrows():
+        for index, row in park.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
             distance = haversine(my_loc, point)
             if distance < min_distance:
                 min_distance = distance
                 park_name, park_lat, park_long, park_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
-    elif rain != '비가 오고 있지 않습니다.':
+    elif rain != '강수없음':
         # 도서관 정보 불러오기 및 추천 로직
         lib_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SeoulLibraryTimeInfo/1/1000/'
         lib_response = requests.get(lib_url)
@@ -51,7 +53,7 @@ def get_place_recommendation(my_loc, sky, rain, temp):
         lib['LONGITUDE'] = lib['LONGITUDE'].astype(float)
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for row in lib.iterrows():
+        for index, row in lib.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
             distance = haversine(my_loc, point)
             if distance < min_distance:
@@ -59,21 +61,25 @@ def get_place_recommendation(my_loc, sky, rain, temp):
                 lib_name, lib_lat, lib_long, lib_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
     else:
         # 박물관 정보 불러오기 및 추천 로직
-        muse_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SeoulMuseumInfo/1/1000/'
-        muse_response = requests.get(muse_url)
-        muse_data = muse_response.json()['SeoulMuseumInfo']['row']
-        muse = pd.DataFrame(muse_data)
-        muse.rename(columns={'MUSEUM_NAME': "NAME", 'ADDR': "ADRES", 'XCNTS': 'LATITUDE', 'YDNTS': "LONGITUDE"}, inplace=True)
+        muse = load_dataset("hscrown/seoul_museums")
+        muse = pd.DataFrame(muse['train'])
+        muse.rename(columns={'시설명': "NAME", '주소': "ADRES", '위도': 'LATITUDE', '경도': "LONGITUDE"}, inplace=True)
+        muse['LATITUDE'].replace('', np.nan, inplace=True)
+        muse['LONGITUDE'].replace('', np.nan, inplace=True)
         muse['LATITUDE'] = muse['LATITUDE'].astype(float)
         muse['LONGITUDE'] = muse['LONGITUDE'].astype(float)
+
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for row in muse.iterrows():
+        for index, row in muse.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
-            distance = haversine(my_loc, point)
-            if distance < min_distance:
-                min_distance = distance
-                muse_name, muse_lat, muse_long, muse_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
+            try:
+                distance = haversine(my_loc, point)            
+                if distance < min_distance:
+                    min_distance = distance
+                    muse_name, muse_lat, muse_long, muse_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
+            except ValueError:
+                continue  # 에러가 발생하면 해당 행을 건너뛰도록 설정
 
     result = {
         "name": park_name or lib_name or muse_name,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import * as Location from 'expo-location';
 import Colors from '@/constants/Colors';
 import { router } from 'expo-router';
 import BackButton from '@/components/BackButton';
@@ -7,18 +8,34 @@ import FlaskConfig from '@/flask.config';
 
 const WeatherDashboard = () => {
   const [weatherData, setWeatherData] = useState({});
-  const lat = 37.5665;
-  const long = 126.978;
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
-    console.log('Component mounted, starting to fetch weather data...');
-    loadWeatherPlaces(lat, long);
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
   }, []);
+
+  useEffect(() => {
+    if (location) {
+      const { latitude, longitude } = location.coords;
+      loadWeatherPlaces(latitude, longitude);
+    }
+  }, [location]);
 
   const loadWeatherPlaces = (lat, long) => {
     console.log(
       `Fetching weather data for latitude: ${lat}, longitude: ${long}`
     );
+
     fetch(
       `http://${FlaskConfig.Private_IP_Address}:${FlaskConfig.weather}/weather?latitude=${lat}&longitude=${long}`
     )
@@ -61,7 +78,7 @@ const WeatherDashboard = () => {
         />
       </View>
       <Text style={styles.title}>{weatherData.name}</Text>
-      <Text style={styles.subtitle}>오늘은 날씨가 {weatherData.sky}!</Text>
+      <Text style={styles.subtitle}>오늘 날씨는 {weatherData.sky}!</Text>
       <Text style={styles.subtitle}>이곳은 어떨까요?</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

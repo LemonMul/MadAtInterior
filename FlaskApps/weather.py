@@ -78,7 +78,7 @@ def get_weather():
         '6': "빗방울 또는 눈날림",
         '7': "눈날림"
     }
-    rain = rain_mapping.get(rain, "기상 정보 없음")
+    rain = rain_mapping.get(rain, "강수없음")
 
     # 초단기예보데이터
     url2 = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst'
