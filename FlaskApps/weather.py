@@ -21,8 +21,8 @@ def get_weather():
     kor_loc = pd.DataFrame(dataset['train'])
     kor_loc = kor_loc.iloc[:,:15].dropna()
 
-    mylat = request.args.get('lat', type=str)
-    mylong = request.args.get('long', type=str)
+    mylat = request.args.get('latitude')
+    mylong = request.args.get('longitude')
 
     if not mylat:
         print("response error:not valid user lat")
