@@ -10,7 +10,12 @@ def get_place_recommendation(my_loc, sky, rain, temp):
     park_long, lib_long, muse_long = None, None, None
     park_adres, lib_adres, muse_adres = None, None, None
 
-    if (sky in ['맑음', '흐림']) and (rain == '강수없음') and (15 <= float(temp) <= 29):
+    # 날씨 정보에 따른 장소 추천 로직
+    park_name, lib_name, muse_name = None, None, None
+    park_lat, lib_lat, muse_lat = None, None, None
+    park_long, lib_long, muse_long = None, None, None
+    park_adres, lib_adres, muse_adres = None, None, None
+    if (sky in ['맑음', '흐림']) and (rain == ' ') and (15 <= float(temp) <= 29):
         # 공원 정보 불러오기 및 추천 로직
         park_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SearchParkInfoService/1/1000/'
         park_response = requests.get(park_url)
@@ -24,13 +29,13 @@ def get_place_recommendation(my_loc, sky, rain, temp):
         park['LONGITUDE'] = park['LONGITUDE'].astype(float)
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for index, row in park.iterrows():
+        for row in park.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
             distance = haversine(my_loc, point)
             if distance < min_distance:
                 min_distance = distance
                 park_name, park_lat, park_long, park_adres = row['NAME'], row['LATITUDE'], row['LONGITUDE'], row['ADRES']
-    elif rain != '강수없음':
+    elif rain != '비가 오고 있지 않습니다.':
         # 도서관 정보 불러오기 및 추천 로직
         lib_url = 'http://openAPI.seoul.go.kr:8088/57524f76506d656e3732636a52457a/json/SeoulLibraryTimeInfo/1/1000/'
         lib_response = requests.get(lib_url)
@@ -46,7 +51,7 @@ def get_place_recommendation(my_loc, sky, rain, temp):
         lib['LONGITUDE'] = lib['LONGITUDE'].astype(float)
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for index, row in lib.iterrows():
+        for row in lib.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
             distance = haversine(my_loc, point)
             if distance < min_distance:
@@ -63,7 +68,7 @@ def get_place_recommendation(my_loc, sky, rain, temp):
         muse['LONGITUDE'] = muse['LONGITUDE'].astype(float)
         # 가장 가까운 위치 찾기
         min_distance = float('inf')
-        for index, row in muse.iterrows():
+        for row in muse.iterrows():
             point = (row['LATITUDE'], row['LONGITUDE'])
             distance = haversine(my_loc, point)
             if distance < min_distance:

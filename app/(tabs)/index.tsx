@@ -11,11 +11,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { router } from "expo-router";
 import * as Location from 'expo-location';
-import axios from 'axios';
 import Colors from '@/constants/Colors';
-import FlaskConfig from '@/flask.config';
-
-
 
 const handleWeather = () => {
   router.push("weathers");
@@ -39,13 +35,15 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [address, setAddress] = useState('Waiting...');
+  const [address, setAddress] = useState('사용자 위치 정보를 불러오고 있습니다...');
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        setErrorMsg('위치 접근 권한이 거부되었습니다.');
         return;
       }
 
@@ -54,14 +52,17 @@ const Page = () => {
 
       if (location) {
         const { latitude, longitude } = location.coords;
+        setLatitude(latitude);
+        setLongitude(longitude);
+
         try {
-          const response = await axios.get(
-            `http://${FlaskConfig.Private_IP_Address}:${FlaskConfig.weather}/weather?latitude=${latitude}&longitude=${longitude}`
-          );
-          const { guName, dongName } = response.data;
-          setAddress(`서울시 ${guName} ${dongName}`);
+          let reverseGeocode = await Location.reverseGeocodeAsync({ latitude, longitude });
+          if (reverseGeocode.length > 0) {
+            let address = reverseGeocode[0];
+            setAddress(`${address.city} ${address.street} ${address.streetNumber} (${address.postalCode})`);
+          }
         } catch (error) {
-          setErrorMsg('Error fetching address');
+          setErrorMsg('주소를 가져오는 중 오류가 발생했습니다.');
         }
       }
     })();
