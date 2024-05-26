@@ -5,6 +5,7 @@ from datetime import datetime
 from lxml import etree
 from haversine import haversine
 from datasets import load_dataset
+from weatherrec import get_place_recommendation
 
 app = Flask(__name__)
 
@@ -113,13 +114,17 @@ def get_weather():
     except (KeyError, IndexError):
         sky = "흐림"
 
+    # 날씨에 따라 추천 장소 얻기
+    place_recommendation = get_place_recommendation(my_loc, sky, rain, temp)
+
     # 결과 출력
     result = {
         "sky": sky,
         "rain": rain,
         "temp": temp,
         "guName": guName,
-        "dongName": dongName
+        "dongName": dongName,
+        **place_recommendation
     }
     response = jsonify(result)
     response.headers.add('Content-Type', 'application/json; charset=ASCII')  # 인코딩 문제 해결

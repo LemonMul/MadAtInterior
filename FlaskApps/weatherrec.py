@@ -1,26 +1,10 @@
 # weatherrec.py
-from flask import Flask, jsonify, request
 import requests
 import pandas as pd
 import numpy as np
 from haversine import haversine
 
-app = Flask(__name__)
-
-@app.route('/weatherrec', methods=['GET'])
-def get_place_recommendation():
-    mylat = request.args.get('latitude')
-    mylong = request.args.get('longitude')
-    sky = request.args.get('sky')
-    rain = request.args.get('rain')
-    temp = request.args.get('temp')
-
-    if not mylat or not mylong or not sky or not rain or not temp:
-        return jsonify({"error": "Missing required parameters"}), 400
-
-    # 내 좌표 설정
-    my_loc = (float(mylat), float(mylong))
-
+def get_place_recommendation(my_loc, sky, rain, temp):
     park_name, lib_name, muse_name = None, None, None
     park_lat, lib_lat, muse_lat = None, None, None
     park_long, lib_long, muse_long = None, None, None
@@ -93,7 +77,4 @@ def get_place_recommendation():
         "address": park_adres or lib_adres or muse_adres,
         "place_type": "공원" if park_name else "도서관" if lib_name else "박물관"
     }
-    return jsonify(result)
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    return result
