@@ -53,10 +53,10 @@ const HomeScreen: React.FC = () => {
   }, []);
 
   const fetchLibraries = async () => {
-    const api_key = '57524f76506d656e3732636a52457a';
+    const seoul_key = 'SEOUL_API_KEY';
     const urls = [
-      `http://openAPI.seoul.go.kr:8088/${api_key}/json/SeoulLibraryTimeInfo/1/1000/`,
-      `http://openAPI.seoul.go.kr:8088/${api_key}/json/SeoulLibraryTimeInfo/1001/2000/`
+      `http://openAPI.seoul.go.kr:8088/${seoul_key}/json/SeoulLibraryTimeInfo/1/1000/`,
+      `http://openAPI.seoul.go.kr:8088/${seoul_key}/json/SeoulLibraryTimeInfo/1001/2000/`
     ];
 
     try {
