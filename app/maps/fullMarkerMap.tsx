@@ -68,7 +68,7 @@ const Page: React.FC = () => {
   }, []);
 
   const fetchParks = async () => {
-    const seoul_key = '57524f76506d656e3732636a52457a';
+    const seoul_key = 'SEOUL_API_KEY';
     const url = `http://openAPI.seoul.go.kr:8088/${seoul_key}/json/SearchParkInfoService/1/1000/`;
     try {
       const response = await axios.get(url);
